@@ -3,8 +3,6 @@ namespace async_inn.Models
 {
     public class Hotel
     {
-        public Hotel()
-        {
-        }
+        public int Id { get; set; }
     }
 }
