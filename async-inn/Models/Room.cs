@@ -11,7 +11,7 @@ namespace async_inn.Models
         public string Name { get; set; }
 
         [Required]
-        public int Layout { get; set; }
+        public RoomLayout Layout { get; set; }
     }
 
     public enum RoomLayout
