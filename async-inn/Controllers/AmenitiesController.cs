@@ -35,7 +35,7 @@ namespace async_inn.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Amenity>> GetAmenity(int id)
         {
-            var amenity = await _context.Amenities.FindAsync(id);
+            var amenity = await amenities.GetById(id);
 
             if (amenity == null)
             {
