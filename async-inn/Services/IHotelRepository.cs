@@ -9,5 +9,6 @@ namespace async_inn.Services
     public interface IHotelRepository
     {
         Task<List<Hotel>> GetAll();
+        Task<Hotel> GetById(int id);
     }
 }
