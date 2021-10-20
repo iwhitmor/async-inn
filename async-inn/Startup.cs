@@ -50,6 +50,12 @@ namespace async_inn
             {
                 endpoints.MapControllers();
 
+                endpoints.MapGet("/", async context =>
+                {
+                    var req = context.Request;
+                    var res = context.Response;
+                    await context.Response.WriteAsync("Hello World!");
+                });
             });
         }
     }
