@@ -25,5 +25,11 @@ namespace async_inn.Services
         {
             return await _context.Hotels.FindAsync(id);
         }
+
+        public async Task Insert(Hotel hotel)
+        {
+            _context.Hotels.Add(hotel);
+            await _context.SaveChangesAsync();
+        }
     }
 }
