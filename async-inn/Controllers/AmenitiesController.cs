@@ -12,11 +12,11 @@ namespace async_inn.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Amenities : ControllerBase
+    public class AmenitiesController : ControllerBase
     {
         private readonly AsyncInnDbContext _context;
 
-        public Amenities(AsyncInnDbContext context)
+        public AmenitiesController(AsyncInnDbContext context)
         {
             _context = context;
         }
