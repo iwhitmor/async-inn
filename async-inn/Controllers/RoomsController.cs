@@ -12,47 +12,47 @@ namespace async_inn.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Hotels : ControllerBase
+    public class RoomsController : ControllerBase
     {
         private readonly AsyncInnDbContext _context;
 
-        public Hotels(AsyncInnDbContext context)
+        public RoomsController(AsyncInnDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Hotels
+        // GET: api/Rooms
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Hotel>>> GetHotels()
+        public async Task<ActionResult<IEnumerable<Room>>> GetRooms()
         {
-            return await _context.Hotels.ToListAsync();
+            return await _context.Rooms.ToListAsync();
         }
 
-        // GET: api/Hotels/5
+        // GET: api/Rooms/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Hotel>> GetHotel(int id)
+        public async Task<ActionResult<Room>> GetRoom(int id)
         {
-            var hotel = await _context.Hotels.FindAsync(id);
+            var room = await _context.Rooms.FindAsync(id);
 
-            if (hotel == null)
+            if (room == null)
             {
                 return NotFound();
             }
 
-            return hotel;
+            return room;
         }
 
-        // PUT: api/Hotels/5
+        // PUT: api/Rooms/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutHotel(int id, Hotel hotel)
+        public async Task<IActionResult> PutRoom(int id, Room room)
         {
-            if (id != hotel.Id)
+            if (id != room.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(hotel).State = EntityState.Modified;
+            _context.Entry(room).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace async_inn.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!HotelExists(id))
+                if (!RoomExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace async_inn.Controllers
             return NoContent();
         }
 
-        // POST: api/Hotels
+        // POST: api/Rooms
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Hotel>> PostHotel(Hotel hotel)
+        public async Task<ActionResult<Room>> PostRoom(Room room)
         {
-            _context.Hotels.Add(hotel);
+            _context.Rooms.Add(room);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetHotel", new { id = hotel.Id }, hotel);
+            return CreatedAtAction("GetRoom", new { id = room.Id }, room);
         }
 
-        // DELETE: api/Hotels/5
+        // DELETE: api/Rooms/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteHotel(int id)
+        public async Task<IActionResult> DeleteRoom(int id)
         {
-            var hotel = await _context.Hotels.FindAsync(id);
-            if (hotel == null)
+            var room = await _context.Rooms.FindAsync(id);
+            if (room == null)
             {
                 return NotFound();
             }
 
-            _context.Hotels.Remove(hotel);
+            _context.Rooms.Remove(room);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool HotelExists(int id)
+        private bool RoomExists(int id)
         {
-            return _context.Hotels.Any(e => e.Id == id);
+            return _context.Rooms.Any(e => e.Id == id);
         }
     }
 }
