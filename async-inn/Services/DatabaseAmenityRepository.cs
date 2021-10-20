@@ -1,7 +1,8 @@
 ﻿using System;
 namespace async_inn.Services
 {
-    public class DatabaseAmenityRepository
+    public class DatabaseAmenityRepository : IAmenityRepository
     {
+
     }
 }
