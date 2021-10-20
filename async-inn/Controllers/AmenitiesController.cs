@@ -28,14 +28,14 @@ namespace async_inn.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Amenity>>> GetAmenitiies()
         {
-            return await _context.Amenitiies.ToListAsync();
+            return await amenities.GetAll();
         }
 
         // GET: api/Amenities/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Amenity>> GetAmenity(int id)
         {
-            var amenity = await _context.Amenitiies.FindAsync(id);
+            var amenity = await _context.Amenities.FindAsync(id);
 
             if (amenity == null)
             {
@@ -81,7 +81,7 @@ namespace async_inn.Controllers
         [HttpPost]
         public async Task<ActionResult<Amenity>> PostAmenity(Amenity amenity)
         {
-            _context.Amenitiies.Add(amenity);
+            _context.Amenities.Add(amenity);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetAmenity", new { id = amenity.Id }, amenity);
@@ -91,13 +91,13 @@ namespace async_inn.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAmenity(int id)
         {
-            var amenity = await _context.Amenitiies.FindAsync(id);
+            var amenity = await _context.Amenities.FindAsync(id);
             if (amenity == null)
             {
                 return NotFound();
             }
 
-            _context.Amenitiies.Remove(amenity);
+            _context.Amenities.Remove(amenity);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -105,7 +105,7 @@ namespace async_inn.Controllers
 
         private bool AmenityExists(int id)
         {
-            return _context.Amenitiies.Any(e => e.Id == id);
+            return _context.Amenities.Any(e => e.Id == id);
         }
     }
 }
