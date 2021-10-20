@@ -31,5 +31,18 @@ namespace async_inn.Services
             _context.Hotels.Add(hotel);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<bool> TryDelete(int id)
+        {
+            var hotel = await _context.Hotels.FindAsync(id);
+            if (hotel == null)
+            {
+                return false;
+            }
+
+            _context.Hotels.Remove(hotel);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

@@ -91,14 +91,15 @@ namespace async_inn.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHotel(int id)
         {
-            var hotel = await _context.Hotels.FindAsync(id);
-            if (hotel == null)
+         
+
+            var deleteSucceeded = await hotels.TryDelete(id);
+
+            if (!deleteSucceeded)
+
             {
                 return NotFound();
             }
-
-            _context.Hotels.Remove(hotel);
-            await _context.SaveChangesAsync();
 
             return NoContent();
         }
