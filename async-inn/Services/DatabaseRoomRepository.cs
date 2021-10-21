@@ -31,5 +31,18 @@ namespace async_inn.Services
             _context.Rooms.Add(room);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<bool> TryDelete(int id)
+        {
+            var room = await _context.Rooms.FindAsync(id);
+            if (room == null)
+            {
+                return false;
+            }
+
+            _context.Rooms.Remove(room);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }
