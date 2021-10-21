@@ -25,5 +25,11 @@ namespace async_inn.Services
         {
             return await _context.Rooms.FindAsync(id);
         }
+
+        public async Task Insert(Room room)
+        {
+            _context.Rooms.Add(room);
+            await _context.SaveChangesAsync();
+        }
     }
 }

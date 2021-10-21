@@ -81,8 +81,7 @@ namespace async_inn.Controllers
         [HttpPost]
         public async Task<ActionResult<Room>> PostRoom(Room room)
         {
-            _context.Rooms.Add(room);
-            await _context.SaveChangesAsync();
+            await rooms.Insert(room);
 
             return CreatedAtAction("GetRoom", new { id = room.Id }, room);
         }
