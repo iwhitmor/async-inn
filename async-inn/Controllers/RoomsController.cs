@@ -7,52 +7,55 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using async_inn.Data;
 using async_inn.Models;
+using async_inn.Services;
 
 namespace async_inn.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Amenities : ControllerBase
+    public class RoomsController : ControllerBase
     {
+        private readonly IRoomRepository rooms;
         private readonly AsyncInnDbContext _context;
 
-        public Amenities(AsyncInnDbContext context)
+        public RoomsController(IRoomRepository rooms, AsyncInnDbContext context)
         {
+            this.rooms = rooms;
             _context = context;
         }
 
-        // GET: api/Amenities
+        // GET: api/Rooms
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Amenity>>> GetAmenitiies()
+        public async Task<ActionResult<IEnumerable<Room>>> GetRooms()
         {
-            return await _context.Amenitiies.ToListAsync();
+            return await rooms.GetAll();
         }
 
-        // GET: api/Amenities/5
+        // GET: api/Rooms/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Amenity>> GetAmenity(int id)
+        public async Task<ActionResult<Room>> GetRoom(int id)
         {
-            var amenity = await _context.Amenitiies.FindAsync(id);
+            var room = await rooms.GetById(id);
 
-            if (amenity == null)
+            if (room == null)
             {
                 return NotFound();
             }
 
-            return amenity;
+            return room;
         }
 
-        // PUT: api/Amenities/5
+        // PUT: api/Rooms/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAmenity(int id, Amenity amenity)
+        public async Task<IActionResult> PutRoom(int id, Room room)
         {
-            if (id != amenity.Id)
+            if (id != room.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(amenity).State = EntityState.Modified;
+            _context.Entry(room).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +63,7 @@ namespace async_inn.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AmenityExists(id))
+                if (!RoomExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +76,35 @@ namespace async_inn.Controllers
             return NoContent();
         }
 
-        // POST: api/Amenities
+        // POST: api/Rooms
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Amenity>> PostAmenity(Amenity amenity)
+        public async Task<ActionResult<Room>> PostRoom(Room room)
         {
-            _context.Amenitiies.Add(amenity);
-            await _context.SaveChangesAsync();
+            await rooms.Insert(room);
 
-            return CreatedAtAction("GetAmenity", new { id = amenity.Id }, amenity);
+            return CreatedAtAction("GetRoom", new { id = room.Id }, room);
         }
 
-        // DELETE: api/Amenities/5
+        // DELETE: api/Rooms/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAmenity(int id)
+        public async Task<IActionResult> DeleteRoom(int id)
         {
-            var amenity = await _context.Amenitiies.FindAsync(id);
-            if (amenity == null)
+            var deleteSucceeded = await rooms.TryDelete(id);
+
+            if (!deleteSucceeded)
+
             {
                 return NotFound();
             }
 
-            _context.Amenitiies.Remove(amenity);
-            await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
-        private bool AmenityExists(int id)
+        private bool RoomExists(int id)
         {
-            return _context.Amenitiies.Any(e => e.Id == id);
+            return _context.Rooms.Any(e => e.Id == id);
         }
+
     }
 }
