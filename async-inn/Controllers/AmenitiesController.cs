@@ -90,14 +90,12 @@ namespace async_inn.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAmenity(int id)
         {
-            var amenity = await _context.Amenities.FindAsync(id);
-            if (amenity == null)
+            var deleteSucceeded = await amenities.TryDelete(id);
+
+            if (!deleteSucceeded)
             {
                 return NotFound();
             }
-
-            _context.Amenities.Remove(amenity);
-            await _context.SaveChangesAsync();
 
             return NoContent();
         }

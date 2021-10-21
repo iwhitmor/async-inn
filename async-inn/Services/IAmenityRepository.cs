@@ -12,5 +12,7 @@ namespace async_inn.Services
         Task<Amenity> GetById(int id);
 
         Task Insert(Amenity amenity);
+
+        Task<bool> TryDelete(int id);
     }
 }

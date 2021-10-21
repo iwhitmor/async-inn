@@ -31,5 +31,18 @@ namespace async_inn.Services
             _context.Amenities.Add(amenity);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<bool> TryDelete(int id)
+        {
+            var amenity = await _context.Amenities.FindAsync(id);
+            if (amenity == null)
+            {
+                return false;
+            }
+
+            _context.Amenities.Remove(amenity);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }
