@@ -20,5 +20,10 @@ namespace async_inn.Services
         {
             return await _context.Rooms.ToListAsync();
         }
+
+        public async Task<Room> GetById(int id)
+        {
+            return await _context.Rooms.FindAsync(id);
+        }
     }
 }
