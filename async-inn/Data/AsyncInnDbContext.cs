@@ -39,7 +39,16 @@ namespace async_inn.Data
                 );
 
             modelBuilder.Entity<RoomAmenity>()
-                .HasKey(e => new { e.AmenitiesId, e.RoomId });
+                .HasKey(e => new { e.AmenityId, e.RoomId}
+
+                );
+
+            modelBuilder.Entity<RoomAmenity>()
+                .HasData(
+                new RoomAmenity { AmenityId = 1, RoomId = 1 },
+                new RoomAmenity { AmenityId = 2, RoomId = 2 },
+                new RoomAmenity { AmenityId = 3, RoomId = 3 }
+                );
         }
     }
     
