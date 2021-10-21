@@ -14,5 +14,7 @@ namespace async_inn.Services
         Task Insert(Room room);
 
         Task<bool> TryDelete(int id);
+
+        Task<bool> TryUpdate(Room room);
     }
 }

@@ -105,5 +105,6 @@ namespace async_inn.Controllers
         {
             return _context.Rooms.Any(e => e.Id == id);
         }
+
     }
 }
