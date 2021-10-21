@@ -25,5 +25,11 @@ namespace async_inn.Services
         {
             return await _context.Amenities.FindAsync();
         }
+
+        public async Task Insert(Amenity amenity)
+        {
+            _context.Amenities.Add(amenity);
+            await _context.SaveChangesAsync();
+        }
     }
 }

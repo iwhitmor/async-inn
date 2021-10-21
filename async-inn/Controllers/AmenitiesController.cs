@@ -81,8 +81,7 @@ namespace async_inn.Controllers
         [HttpPost]
         public async Task<ActionResult<Amenity>> PostAmenity(Amenity amenity)
         {
-            _context.Amenities.Add(amenity);
-            await _context.SaveChangesAsync();
+            await amenities.Insert(amenity);
 
             return CreatedAtAction("GetAmenity", new { id = amenity.Id }, amenity);
         }

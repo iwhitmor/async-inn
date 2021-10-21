@@ -10,5 +10,7 @@ namespace async_inn.Services
         Task<List<Amenity>> GetAll();
 
         Task<Amenity> GetById(int id);
+
+        Task Insert(Amenity amenity);
     }
 }
