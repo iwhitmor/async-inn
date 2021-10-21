@@ -1,7 +1,7 @@
 ﻿using System;
 namespace async_inn.Services
 {
-    public class DatabaseRoomRepository
+    public class DatabaseRoomRepository : IRoomRepository
     {
        
     }
