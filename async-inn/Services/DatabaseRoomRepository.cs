@@ -46,7 +46,9 @@ namespace async_inn.Services
         {
             return await _context.Rooms
                 .Include(r => r.RoomAmenities)
+
                 .ThenInclude(ra => ra.Amenity)
+
                 .FirstOrDefaultAsync(r => r.Id == id);
         }
 
