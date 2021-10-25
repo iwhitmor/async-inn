@@ -14,6 +14,8 @@ namespace async_inn.Data
 
         public DbSet<Amenity> Amenities { get; set; }
 
+        public DbSet<RoomAmenity> RoomAmenities { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
             modelBuilder.Entity<Hotel>().HasData(
@@ -34,6 +36,18 @@ namespace async_inn.Data
                     new Amenity { Id = 1, Name = "Mini-Bar" },
                     new Amenity { Id = 2, Name = "Large Couch" },
                     new Amenity { Id = 3, Name = "Kitchenette" }
+                );
+
+            modelBuilder.Entity<RoomAmenity>()
+                .HasKey(e => new { e.AmenityId, e.RoomId}
+
+                );
+
+            modelBuilder.Entity<RoomAmenity>()
+                .HasData(
+                new RoomAmenity { AmenityId = 1, RoomId = 1 },
+                new RoomAmenity { AmenityId = 2, RoomId = 2 },
+                new RoomAmenity { AmenityId = 3, RoomId = 3 }
                 );
         }
     }

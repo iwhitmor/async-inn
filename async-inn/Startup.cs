@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text.Json.Serialization;
 
 namespace async_inn
 {
@@ -30,13 +31,20 @@ namespace async_inn
         {
             
 
-            services.AddDbContext<AsyncInnDbContext>(options => {
+            services.AddDbContext<AsyncInnDbContext>(options =>
+            {
                 // Our DATABASE_URL from js days
                 string connectionString = Configuration.GetConnectionString("DefaultConnection");
                 options.UseSqlServer(connectionString);
             });
 
-            services.AddControllers();
+            services
+                .AddControllers()
+                .AddNewtonsoftJson(options =>
+                {
+                   options.SerializerSettings.ReferenceLoopHandling =
+                      Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                });
 
             services.AddScoped<IHotelRepository, DatabaseHotelRepository>();
 

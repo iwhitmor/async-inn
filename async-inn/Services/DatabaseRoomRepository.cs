@@ -17,19 +17,54 @@ namespace async_inn.Services
             _context = context;
         }
 
+        public async Task AddAmenity(int roomId, int amenityId)
+        {
+            var roomAmenity = new RoomAmenity
+            {
+                RoomId = roomId,
+                AmenityId = amenityId
+            };
+
+            _context.RoomAmenities.Add(roomAmenity);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Room>> GetAll()
         {
-            return await _context.Rooms.ToListAsync();
+            var result = await _context.Rooms
+
+                .Include(r => r.RoomAmenities)
+
+                .ThenInclude(ra => ra.Amenity)
+
+                .ToListAsync();
+
+            return result;
         }
 
         public async Task<Room> GetById(int id)
         {
-            return await _context.Rooms.FindAsync(id);
+            return await _context.Rooms
+                .Include(r => r.RoomAmenities)
+                .ThenInclude(ra => ra.Amenity)
+                .FirstOrDefaultAsync(r => r.Id == id);
         }
 
         public async Task Insert(Room room)
         {
             _context.Rooms.Add(room);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveAmenity(int roomId, int amenityId)
+        {
+            var roomAmenity = await _context.RoomAmenities
+
+            .FirstOrDefaultAsync(ra =>
+                ra.RoomId == roomId &&
+                ra.AmenityId == amenityId);
+
+            _context.RoomAmenities.Remove(roomAmenity);
             await _context.SaveChangesAsync();
         }
 
@@ -65,7 +100,7 @@ namespace async_inn.Services
                 {
                     throw;
                 }
-            }
+            }    
         }
 
         private bool RoomExists(int id)
