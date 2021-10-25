@@ -11,7 +11,7 @@ namespace async_inn.Models
         [Required]
         public string Name { get; set; }
 
-        //Navigation properties
+        //Reverse Navigation properties
         public List<RoomAmenity> RoomAmenities { get; set; }
     }
 }

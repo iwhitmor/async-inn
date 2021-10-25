@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace async_inn.Models
@@ -12,6 +13,9 @@ namespace async_inn.Models
 
         [Required]
         public RoomLayout Layout { get; set; }
+
+        //Reverse Navigation Properties
+        public List<RoomAmenity> RoomAmenities { get; set; }
     }
 
     public enum RoomLayout
@@ -19,5 +23,5 @@ namespace async_inn.Models
         Studio = 0,
         OneBedroom = 1,
         TwoBedroom = 2,
-    }
+    } 
 }
