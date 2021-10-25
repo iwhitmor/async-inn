@@ -44,7 +44,10 @@ namespace async_inn.Services
 
         public async Task<Room> GetById(int id)
         {
-            return await _context.Rooms.FindAsync(id);
+            return await _context.Rooms
+                .Include(r => r.RoomAmenities)
+                .ThenInclude(ra => ra.Amenity)
+                .FirstOrDefaultAsync(r => r.Id == id);
         }
 
         public async Task Insert(Room room)
@@ -55,11 +58,14 @@ namespace async_inn.Services
 
         public async Task RemoveAmenity(int roomId, int amenityId)
         {
-            var RoomAmenity = await _context.RoomAmenities
+            var roomAmenity = await _context.RoomAmenities
 
             .FirstOrDefaultAsync(ra =>
                 ra.RoomId == roomId &&
                 ra.AmenityId == amenityId);
+
+            _context.RoomAmenities.Remove(roomAmenity);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<bool> TryDelete(int id)
