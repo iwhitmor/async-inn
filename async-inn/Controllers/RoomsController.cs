@@ -106,5 +106,20 @@ namespace async_inn.Controllers
             return _context.Rooms.Any(e => e.Id == id);
         }
 
+        [HttpPost]
+        [Route("{roomId}/Amenity/{amenityId}")]
+        public async Task<IActionResult> AddAmenityToRoom(int roomId, int amenityId)
+        {
+            await rooms.AddAmenity(roomId, amenityId);
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route("{roomId}/Amenity/{amenityId}")]
+        public async Task<IActionResult> RemoveAmenityFromRoom(int roomId, int amenityId)
+        {
+            await rooms.RemoveAmenity(roomId, amenityId);
+            return NoContent();
+        }
     }
 }

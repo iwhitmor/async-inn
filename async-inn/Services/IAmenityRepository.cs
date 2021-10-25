@@ -14,5 +14,7 @@ namespace async_inn.Services
         Task Insert(Amenity amenity);
 
         Task<bool> TryDelete(int id);
+
+        Task RoomAmenity(int AmenityId, int RoomId);
     }
 }
