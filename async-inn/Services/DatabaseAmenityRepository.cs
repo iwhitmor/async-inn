@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using async_inn.Data;
 using async_inn.Models;
+using async_inn.Models.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace async_inn.Services
@@ -16,9 +18,17 @@ namespace async_inn.Services
             _context = context;
         }
 
-        public async Task<List<Amenity>> GetAll()
+        public Task<List<AmenityDto>> GetAll()
         {
-            return await _context.Amenities.ToListAsync();
+            return _context.Amenities
+                .Select(amenity => new AmenityDto
+                {
+
+                    ID = amenity.Id,
+                    Name = amenity.Name,
+                })
+
+                .ToListAsync();
         }
 
         public async Task<Amenity> GetById(int id)

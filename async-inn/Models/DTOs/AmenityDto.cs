@@ -2,7 +2,7 @@
 namespace async_inn.Models.DTOs
 {
 
-    public class AmenityDTO
+    public class AmenityDto
     {
         public int ID { get; set; }
         public string Name { get; set; }
