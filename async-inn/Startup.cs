@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Text.Json.Serialization;
+using Microsoft.OpenApi.Models;
 
 namespace async_inn
 {
@@ -29,7 +30,17 @@ namespace async_inn
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
+            services.AddSwaggerGen(options =>
+            {
+                // Make sure get the "using Statement"
+                options.SwaggerDoc("v1", new OpenApiInfo()
+                {
+                    Title = "Async Inn",
+                    Version = "v1",
+                });
+            });
+
 
             services.AddDbContext<AsyncInnDbContext>(options =>
             {
@@ -60,6 +71,10 @@ namespace async_inn
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger(options => {
+                options.RouteTemplate = "/api/{documentName}/swagger.json";
+            });
 
             app.UseRouting();
 
