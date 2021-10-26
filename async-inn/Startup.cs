@@ -72,8 +72,15 @@ namespace async_inn
                 app.UseDeveloperExceptionPage();
             }
 
+
+
             app.UseSwagger(options => {
                 options.RouteTemplate = "/api/{documentName}/swagger.json";
+            });
+
+            app.UseSwaggerUI(options => {
+                options.SwaggerEndpoint("/api/v1/swagger.json", "Async Inn");
+                options.RoutePrefix = "";
             });
 
             app.UseRouting();
@@ -82,12 +89,12 @@ namespace async_inn
             {
                 endpoints.MapControllers();
 
-                endpoints.MapGet("/", async context =>
-                {
-                    var req = context.Request;
-                    var res = context.Response;
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                //endpoints.MapGet("/", async context =>
+                //{
+                //    var req = context.Request;
+                //    var res = context.Response;
+                //    await context.Response.WriteAsync("Hello World!");
+                //});
             });
         }
     }
