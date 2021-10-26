@@ -23,7 +23,6 @@ namespace async_inn.Services
             return _context.Amenities
                 .Select(amenity => new AmenityDto
                 {
-
                     ID = amenity.Id,
                     Name = amenity.Name,
                 })
