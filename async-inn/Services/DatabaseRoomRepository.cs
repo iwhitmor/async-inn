@@ -44,6 +44,13 @@ namespace async_inn.Services
                     Name = room.Name,
                     Layout = room.Layout,
 
+                    Amenities = room.RoomAmenities
+                    .Select(ra => new AmenityDto
+                    {
+                        ID = ra.AmenityId,
+                        Name = ra.Amenity.Name,
+                    })
+                    .ToList(),
                 })
 
                 .ToListAsync();
