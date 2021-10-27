@@ -13,6 +13,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
+using async_inn.Models.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace async_inn
 {
@@ -61,6 +63,9 @@ namespace async_inn
             services.AddScoped<IAmenityRepository, DatabaseAmenityRepository>();
 
             services.AddScoped<IRoomRepository, DatabaseRoomRepository>();
+
+            //Identity
+            services.AddIdentity<ApplicationUser, IdentityRole>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,12 +93,6 @@ namespace async_inn
             {
                 endpoints.MapControllers();
 
-                //endpoints.MapGet("/", async context =>
-                //{
-                //    var req = context.Request;
-                //    var res = context.Response;
-                //    await context.Response.WriteAsync("Hello World!");
-                //});
             });
         }
     }
