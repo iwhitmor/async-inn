@@ -17,6 +17,8 @@
     <None Remove="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
     <None Remove="Models\DTOs\" />
     <None Remove="Swashbuckle.AspNetCore" />
+    <None Remove="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <None Remove="Models\Identity\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" />
@@ -28,6 +30,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.11" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.11" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -35,5 +38,6 @@
     <Folder Include="Controllers\" />
     <Folder Include="Services\" />
     <Folder Include="Models\DTOs\" />
+    <Folder Include="Models\Identity\" />
   </ItemGroup>
 </Project>
