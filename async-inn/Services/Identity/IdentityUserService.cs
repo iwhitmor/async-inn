@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using async_inn.Models.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace async_inn.Services.Identity
 {
@@ -14,7 +15,7 @@ namespace async_inn.Services.Identity
             this.userManager = userManager;
         }
 
-        public async Task<ApplicationUser> Register(RegisterData data)
+        public async Task<UserDto> Register(RegisterData data, ModelStateDictionary modelState)
         {
             var user = new ApplicationUser
             {
@@ -26,7 +27,12 @@ namespace async_inn.Services.Identity
 
             if (result.Succeeded)
             {
-                return user;
+                return new UserDto
+                {
+                    UserId = user.Id,
+                    Email = user.Email,
+                    Username = user.UserName,
+                };
             }
 
             foreach (var error in result.Errors)

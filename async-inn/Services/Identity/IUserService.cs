@@ -6,6 +6,6 @@ namespace async_inn.Services.Identity
 {
     public interface IUserService
     {
-        Task<ApplicationUser> Register(RegisterData data, ModelStateDictionary modelStateDictionary);
+        Task<UserDto> Register(RegisterData data, ModelStateDictionary modelState);
     }
 }

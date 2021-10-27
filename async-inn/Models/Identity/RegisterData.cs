@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace async_inn.Models.Identity
 {
+
     public class RegisterData
     {
      [Required]
