@@ -18,7 +18,6 @@ namespace async_inn
 {
     public class Startup
     {
-
         public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
