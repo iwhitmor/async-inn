@@ -15,6 +15,7 @@ using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
 using async_inn.Models.Identity;
 using Microsoft.AspNetCore.Identity;
+using async_inn.Services.Identity;
 
 namespace async_inn
 {
@@ -50,12 +51,21 @@ namespace async_inn
                 options.UseSqlServer(connectionString);
             });
 
+            //Identity
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+            })
+                .AddEntityFrameworkStores<AsyncInnDbContext>();
+
+            services.AddScoped<IUserService, AspNetCoreIdentityUserService>();
+
             services
                 .AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
-                   options.SerializerSettings.ReferenceLoopHandling =
-                      Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.ReferenceLoopHandling =
+                       Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 });
 
             services.AddScoped<IHotelRepository, DatabaseHotelRepository>();
@@ -64,8 +74,7 @@ namespace async_inn
 
             services.AddScoped<IRoomRepository, DatabaseRoomRepository>();
 
-            //Identity
-            services.AddIdentity<ApplicationUser, IdentityRole>();
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
