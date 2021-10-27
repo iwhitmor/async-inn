@@ -29,6 +29,16 @@ namespace async_inn.Services.Identity
                 return user;
             }
 
+            foreach (var error in result.Errors)
+            {
+                var errorKey =
+                    error.Code.Contains("Password") ? nameof(data.Password) :
+                    error.Code.Contains("Email") ? nameof(data.Email) :
+                    error.Code.Contains("UserName") ? nameof(data.Username) :
+                    "";
+                modelState.AddModelError(errorKey, error.Description);
+            }
+
             return null;
         }
     }

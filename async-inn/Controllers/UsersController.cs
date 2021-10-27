@@ -24,9 +24,10 @@ namespace async_inn.Controllers
 
         public async Task<IActionResult> Register(RegisterData data)
         {
-            var user = await userService.Register(data);
+            var user = await userService.Register(data, this.ModelState);
+
             if (user == null)
-                return BadRequest();
+                return BadRequest(new ValidationProblemDetails(ModelState));
 
             return Ok(user);
         }
