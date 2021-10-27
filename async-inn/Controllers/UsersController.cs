@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using async_inn.Models.Identity;
+using async_inn.Services.Identity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,9 +13,22 @@ namespace async_inn.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private IUserService userService;
+
+        public UsersController(IUserService userService)
+        {
+            this.userService = userService;
+        }
+
+        [HttpPost("Register")]
+
         public async Task<IActionResult> Register(RegisterData data)
         {
-            return Ok();
+            var user = await userService.Register(data);
+            if (user == null)
+                return BadRequest();
+
+            return Ok(user);
         }
     }
 }
