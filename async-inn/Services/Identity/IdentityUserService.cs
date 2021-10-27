@@ -19,10 +19,12 @@ namespace async_inn.Services.Identity
         {
             var user = await userManager.FindByNameAsync(data.Username);
 
-            if (!await userManager.CheckPasswordAsync(user, data.Password))
-                return null;
+            if (await userManager.CheckPasswordAsync(user, data.Password))
+            {
+                return CreateUserDto(user);
+            }
 
-            return CreateUserDto(user);
+            return null;
         }
 
         public async Task<UserDto> Register(RegisterData data, ModelStateDictionary modelState)
