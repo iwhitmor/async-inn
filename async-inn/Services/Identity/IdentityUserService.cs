@@ -22,12 +22,7 @@ namespace async_inn.Services.Identity
             if (!await userManager.CheckPasswordAsync(user, data.Password))
                 return null;
 
-            return new UserDto
-            {
-                UserId = user.Id,
-                Username = user.UserName,
-                Email = user.Email,
-            };
+            return CreateUserDto(user);
         }
 
         public async Task<UserDto> Register(RegisterData data, ModelStateDictionary modelState)
@@ -42,12 +37,7 @@ namespace async_inn.Services.Identity
 
             if (result.Succeeded)
             {
-                return new UserDto
-                {
-                    UserId = user.Id,
-                    Email = user.Email,
-                    Username = user.UserName,
-                };
+                return CreateUserDto(user);
             }
 
             foreach (var error in result.Errors)
@@ -61,6 +51,16 @@ namespace async_inn.Services.Identity
             }
 
             return null;
+        }
+
+        private UserDto CreateUserDto(ApplicationUser user)
+        {
+            return new UserDto
+            {
+                UserId = user.Id,
+                Email = user.Email,
+                Username = user.UserName,
+            };
         }
     }
 }
