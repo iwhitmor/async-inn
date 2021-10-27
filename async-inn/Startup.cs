@@ -58,7 +58,7 @@ namespace async_inn
             })
                 .AddEntityFrameworkStores<AsyncInnDbContext>();
 
-            services.AddScoped<IUserService, AspNetCoreIdentityUserService>();
+            services.AddScoped<IUserService, IdentityUserService>();
 
             services
                 .AddControllers()
