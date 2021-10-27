@@ -22,7 +22,7 @@ namespace async_inn.Controllers
 
         [HttpPost("Register")]
 
-        public async Task<IActionResult> Register(RegisterData data)
+        public async Task<ActionResult<UserDto>> Register(RegisterData data)
         {
             var user = await userService.Register(data, this.ModelState);
 
@@ -30,6 +30,17 @@ namespace async_inn.Controllers
                 return BadRequest(new ValidationProblemDetails(ModelState));
 
             return Ok(user);
+        }
+
+        [HttpPost("Login")]
+        public async Task<ActionResult<UserDto>> Login(LoginData data)
+        {
+            var user = await userService.Authenticate(data);
+
+            if (user == null)
+                return Unauthorized();
+
+            return user;
         }
     }
 }
