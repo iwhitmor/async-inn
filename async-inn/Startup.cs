@@ -16,6 +16,7 @@ using Microsoft.OpenApi.Models;
 using async_inn.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using async_inn.Services.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace async_inn
 {
@@ -61,6 +62,18 @@ namespace async_inn
             services.AddScoped<IUserService, IdentityUserService>();
             services.AddSingleton<JwtService>();
 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+
+            .AddJwtBearer(options =>
+             {
+                 options.TokenValidationParameters = JwtService.GetValidationParameters(Configuration);
+             });
+
             services
                 .AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -86,8 +99,6 @@ namespace async_inn
                 app.UseDeveloperExceptionPage();
             }
 
-
-
             app.UseSwagger(options => {
                 options.RouteTemplate = "/api/{documentName}/swagger.json";
             });
@@ -98,6 +109,9 @@ namespace async_inn
             });
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
