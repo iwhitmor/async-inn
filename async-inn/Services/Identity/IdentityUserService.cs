@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace async_inn.Services.Identity
 {
+
     public class IdentityUserService : IUserService
     {
         private readonly UserManager<ApplicationUser> userManager;
