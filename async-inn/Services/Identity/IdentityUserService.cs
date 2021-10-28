@@ -11,10 +11,12 @@ namespace async_inn.Services.Identity
     public class IdentityUserService : IUserService
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly JwtService jwtservice;
 
-        public IdentityUserService(UserManager<ApplicationUser> userManager, ILogger<IdentityUserService> logger)
+        public IdentityUserService(UserManager<ApplicationUser> userManager, JwtService jwtservice, ILogger<IdentityUserService> logger)
         {
             this.userManager = userManager;
+            this.jwtservice = jwtservice;
             Logger = logger;
         }
 
