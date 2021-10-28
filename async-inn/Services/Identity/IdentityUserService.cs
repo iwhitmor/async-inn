@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using async_inn.Models.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -35,11 +36,18 @@ namespace async_inn.Services.Identity
             return null;
         }
 
+        public async Task<UserDto> GetUser(ClaimsPrincipal principal)
+        {
+            var user = await userManager.GetUserAsync(principal);
+            if (user == null) return null; 
+            return await CreateUserDto(user);
+        }
+
         public async Task<UserDto> Register(RegisterData data, ModelStateDictionary modelState)
         {
             var user = new ApplicationUser
             {
-                Email = data.Username,
+                Email = data.Email,
                 UserName = data.Username,
             };
 

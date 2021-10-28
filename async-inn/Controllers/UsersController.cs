@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using async_inn.Models.Identity;
 using async_inn.Services.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,6 +42,13 @@ namespace async_inn.Controllers
                 return Unauthorized();
 
             return user;
+        }
+
+        [Authorize]
+        [HttpGet("[action]")]
+        public async Task<ActionResult<UserDto>> Self()
+        {
+            return await userService.GetUser(this.User);
         }
     }
 }
