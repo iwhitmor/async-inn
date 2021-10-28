@@ -60,7 +60,7 @@ namespace async_inn
                 .AddEntityFrameworkStores<AsyncInnDbContext>();
 
             services.AddScoped<IUserService, IdentityUserService>();
-            services.AddSingleton<JwtService>();
+            services.AddScoped<JwtService>();
 
             services.AddAuthentication(options =>
             {
