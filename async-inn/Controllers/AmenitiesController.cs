@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace async_inn.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "District Manager, Property Manager, Agent")]
     [Route("api/[controller]")]
     [ApiController]
     public class AmenitiesController : ControllerBase
@@ -52,6 +52,7 @@ namespace async_inn.Controllers
 
         // PUT: api/Amenities/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "District Manager, Property Manager")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAmenity(int id, Amenity amenity)
         {
@@ -83,6 +84,7 @@ namespace async_inn.Controllers
 
         // POST: api/Amenities
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "District Manager, Property Manager, Agent")]
         [HttpPost]
         public async Task<ActionResult<Amenity>> PostAmenity(Amenity amenity)
         {
@@ -92,7 +94,7 @@ namespace async_inn.Controllers
         }
 
         // DELETE: api/Amenities/5
-        [Authorize(Roles = "District Manager")]
+        [Authorize(Roles = "District Manager, Agent")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAmenity(int id)
         {

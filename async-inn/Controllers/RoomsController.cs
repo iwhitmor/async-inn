@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace async_inn.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "District Manager, Property Manager, Agent")]
     [Route("api/[controller]")]
     [ApiController]
     public class RoomsController : ControllerBase
@@ -52,6 +52,7 @@ namespace async_inn.Controllers
 
         // PUT: api/Rooms/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "District Manager")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRoom(int id, Room room)
         {
@@ -83,6 +84,7 @@ namespace async_inn.Controllers
 
         // POST: api/Rooms
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "District Manager")]
         [HttpPost]
         public async Task<ActionResult<Room>> PostRoom(Room room)
         {
@@ -112,6 +114,7 @@ namespace async_inn.Controllers
             return _context.Rooms.Any(e => e.Id == id);
         }
 
+        [Authorize(Roles = "District Manager, Property Manager, Agent")]
         [HttpPost]
         [Route("{roomId}/Amenity/{amenityId}")]
         public async Task<IActionResult> AddAmenityToRoom(int roomId, int amenityId)
@@ -120,6 +123,7 @@ namespace async_inn.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "District Manager, Agent")]
         [HttpDelete]
         [Route("{roomId}/Amenity/{amenityId}")]
         public async Task<IActionResult> RemoveAmenityFromRoom(int roomId, int amenityId)
