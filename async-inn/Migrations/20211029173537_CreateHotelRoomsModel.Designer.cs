@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using async_inn.Data;
 
 namespace async_inn.Migrations
 {
     [DbContext(typeof(AsyncInnDbContext))]
-    partial class AsyncInnDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211029173537_CreateHotelRoomsModel")]
+    partial class CreateHotelRoomsModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -298,71 +300,6 @@ namespace async_inn.Migrations
                     b.HasKey("HotelId", "RoomNumber");
 
                     b.ToTable("HotelRooms");
-
-                    b.HasData(
-                        new
-                        {
-                            HotelId = 1,
-                            RoomNumber = 10,
-                            PetFriendly = false,
-                            Price = 110m
-                        },
-                        new
-                        {
-                            HotelId = 1,
-                            RoomNumber = 11,
-                            PetFriendly = false,
-                            Price = 150m
-                        },
-                        new
-                        {
-                            HotelId = 1,
-                            RoomNumber = 12,
-                            PetFriendly = false,
-                            Price = 175m
-                        },
-                        new
-                        {
-                            HotelId = 2,
-                            RoomNumber = 20,
-                            PetFriendly = false,
-                            Price = 100m
-                        },
-                        new
-                        {
-                            HotelId = 2,
-                            RoomNumber = 21,
-                            PetFriendly = false,
-                            Price = 120m
-                        },
-                        new
-                        {
-                            HotelId = 2,
-                            RoomNumber = 22,
-                            PetFriendly = false,
-                            Price = 150m
-                        },
-                        new
-                        {
-                            HotelId = 3,
-                            RoomNumber = 30,
-                            PetFriendly = false,
-                            Price = 135m
-                        },
-                        new
-                        {
-                            HotelId = 3,
-                            RoomNumber = 31,
-                            PetFriendly = false,
-                            Price = 180m
-                        },
-                        new
-                        {
-                            HotelId = 3,
-                            RoomNumber = 32,
-                            PetFriendly = false,
-                            Price = 200m
-                        });
                 });
 
             modelBuilder.Entity("async_inn.Models.Identity.ApplicationUser", b =>

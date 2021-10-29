@@ -19,9 +19,27 @@ namespace async_inn.Data
 
         public DbSet<RoomAmenity> RoomAmenities { get; set; }
 
+        public DbSet<HotelRoom> HotelRooms { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<HotelRoom>()
+                .HasKey(hr => new { hr.HotelId, hr.RoomNumber });
+
+            modelBuilder.Entity<HotelRoom>()
+                .HasData(
+                    new HotelRoom { HotelId = 1, RoomNumber = 10, Price = 110 },
+                    new HotelRoom { HotelId = 1, RoomNumber = 11, Price = 150 },
+                    new HotelRoom { HotelId = 1, RoomNumber = 12, Price = 175 },
+                    new HotelRoom { HotelId = 2, RoomNumber = 20, Price = 100 },
+                    new HotelRoom { HotelId = 2, RoomNumber = 21, Price = 120 },
+                    new HotelRoom { HotelId = 2, RoomNumber = 22, Price = 150 },
+                    new HotelRoom { HotelId = 3, RoomNumber = 30, Price = 135 },
+                    new HotelRoom { HotelId = 3, RoomNumber = 31, Price = 180 },
+                    new HotelRoom { HotelId = 3, RoomNumber = 32, Price = 200 }
+                );
 
             modelBuilder.Entity<Hotel>().HasData(
               new Hotel { Id = 1, Name = "MGM Grand", StreetAddress = "1 Las Vegas Blvd", City = "Las Vegas", State = "Nevada", Country = "USA", Phone = "800-111-1111"  },
@@ -75,6 +93,4 @@ namespace async_inn.Data
             modelBuilder.Entity<IdentityRole>().HasData(role);
         }
     }
-
-
 }

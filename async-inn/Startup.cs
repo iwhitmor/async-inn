@@ -52,6 +52,8 @@ namespace async_inn
                 options.UseSqlServer(connectionString);
             });
 
+            services.AddScoped<IHotelRoomRepository, DatabaseHotelRoomRepository>();
+
             //Identity
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
