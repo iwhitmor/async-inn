@@ -55,6 +55,11 @@ namespace async_inn.Services.Identity
 
             if (result.Succeeded)
             {
+                if (data.Roles.Length > 0)
+                {
+                    await userManager.AddToRolesAsync(user, data.Roles);
+                }
+
                 return await CreateUserDto(user);
             }
 
@@ -78,6 +83,8 @@ namespace async_inn.Services.Identity
                 UserId = user.Id,
                 Email = user.Email,
                 Username = user.UserName,
+
+                Roles = await userManager.GetRolesAsync(user),
 
                 Token = await jwtservice.GetToken(user, TimeSpan.FromMinutes(5)),
             };

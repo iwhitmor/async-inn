@@ -19,5 +19,7 @@ namespace async_inn.Models.Identity
 
      public bool AcceptedTerms { get; set; }
 
+     public string[] Roles { get; set; }
+
     }
 }

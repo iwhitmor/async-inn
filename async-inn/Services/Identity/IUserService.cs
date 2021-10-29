@@ -11,6 +11,7 @@ namespace async_inn.Services.Identity
         Task<UserDto> Register(RegisterData data, ModelStateDictionary modelState);
 
         Task<UserDto> Authenticate(LoginData data);
+
         Task<UserDto> GetUser(ClaimsPrincipal user);
     }
 }
