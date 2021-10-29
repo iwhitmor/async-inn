@@ -28,6 +28,7 @@ namespace async_inn.Controllers
         }
 
         // GET: api/Amenities
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AmenityDto>>> GetAmenitiies()
         {
@@ -35,6 +36,7 @@ namespace async_inn.Controllers
         }
 
         // GET: api/Amenities/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<Amenity>> GetAmenity(int id)
         {

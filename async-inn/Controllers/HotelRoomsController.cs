@@ -28,6 +28,7 @@ namespace async_inn
         }
 
         // GET: api/HotelRooms
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HotelRoom>>> GetHotelRooms(int hotelId)
         {
@@ -43,6 +44,7 @@ namespace async_inn
         }
 
         // GET: api/HotelRooms/5
+        [AllowAnonymous]
         [HttpGet("{roomNumber}")]
         public async Task<ActionResult<HotelRoom>> GetHotelRoom(int hotelId, int roomNumber)
         {
