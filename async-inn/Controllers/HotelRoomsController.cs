@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using async_inn.Data;
 using async_inn.Models;
 using async_inn.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace async_inn
 {
+
+    [Authorize]
     [Route("api/Hotels/{hotelId}/Rooms")]
     [ApiController]
     public class HotelRoomsController : ControllerBase

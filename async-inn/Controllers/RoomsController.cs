@@ -9,9 +9,11 @@ using async_inn.Data;
 using async_inn.Models;
 using async_inn.Services;
 using async_inn.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace async_inn.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class RoomsController : ControllerBase
