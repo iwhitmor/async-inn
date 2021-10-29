@@ -126,6 +126,7 @@ namespace async_inn
         }
 
         // DELETE: api/HotelRooms/5
+        [Authorize(Roles = "District Manager")]
         [HttpDelete("{roomNumber}")]
         public async Task<IActionResult> DeleteHotelRoom(int hotelId, int roomNumber)
         {

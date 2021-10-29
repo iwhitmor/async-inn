@@ -93,6 +93,7 @@ namespace async_inn.Controllers
         }
 
         // DELETE: api/Hotels/5
+        [Authorize(Roles = "District Manager")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHotel(int id)
         {
