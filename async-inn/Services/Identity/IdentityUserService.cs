@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using async_inn.Models.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -7,13 +8,16 @@ using Microsoft.Extensions.Logging;
 
 namespace async_inn.Services.Identity
 {
+
     public class IdentityUserService : IUserService
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly JwtService jwtservice;
 
-        public IdentityUserService(UserManager<ApplicationUser> userManager, ILogger<IdentityUserService> logger)
+        public IdentityUserService(UserManager<ApplicationUser> userManager, JwtService jwtservice, ILogger<IdentityUserService> logger)
         {
             this.userManager = userManager;
+            this.jwtservice = jwtservice;
             Logger = logger;
         }
 
@@ -25,18 +29,25 @@ namespace async_inn.Services.Identity
 
             if (await userManager.CheckPasswordAsync(user, data.Password))
             {
-                return CreateUserDto(user);
+                return await CreateUserDto(user);
             }
 
             Logger.LogInformation("Invalid login for username '{Username}'", data.Username);
             return null;
         }
 
+        public async Task<UserDto> GetUser(ClaimsPrincipal principal)
+        {
+            var user = await userManager.GetUserAsync(principal);
+            if (user == null) return null; 
+            return await CreateUserDto(user);
+        }
+
         public async Task<UserDto> Register(RegisterData data, ModelStateDictionary modelState)
         {
             var user = new ApplicationUser
             {
-                Email = data.Username,
+                Email = data.Email,
                 UserName = data.Username,
             };
 
@@ -44,7 +55,12 @@ namespace async_inn.Services.Identity
 
             if (result.Succeeded)
             {
-                return CreateUserDto(user);
+                if (data.Roles.Length > 0)
+                {
+                    await userManager.AddToRolesAsync(user, data.Roles);
+                }
+
+                return await CreateUserDto(user);
             }
 
             foreach (var error in result.Errors)
@@ -60,13 +76,17 @@ namespace async_inn.Services.Identity
             return null;
         }
 
-        private UserDto CreateUserDto(ApplicationUser user)
+        private async Task<UserDto> CreateUserDto(ApplicationUser user)
         {
             return new UserDto
             {
                 UserId = user.Id,
                 Email = user.Email,
                 Username = user.UserName,
+
+                Roles = await userManager.GetRolesAsync(user),
+
+                Token = await jwtservice.GetToken(user, TimeSpan.FromMinutes(5)),
             };
         }
     }
