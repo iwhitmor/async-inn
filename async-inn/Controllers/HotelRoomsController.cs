@@ -11,7 +11,7 @@ using async_inn.Services;
 
 namespace async_inn
 {
-    [Route("api/[controller]")]
+    [Route("api/Hotels/{hotelId}/Rooms")]
     [ApiController]
     public class HotelRoomsController : ControllerBase
     {
@@ -26,16 +26,16 @@ namespace async_inn
 
         // GET: api/HotelRooms
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<HotelRoom>>> GetHotelRooms()
+        public async Task<ActionResult<IEnumerable<HotelRoom>>> GetHotelRooms(int hotelId)
         {
             return await _context.HotelRooms.ToListAsync();
         }
 
         // GET: api/HotelRooms/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<HotelRoom>> GetHotelRoom(int id)
+        [HttpGet("{roomNumber}")]
+        public async Task<ActionResult<HotelRoom>> GetHotelRoom(int hotelId, int roomNumber)
         {
-            var hotelRoom = await _context.HotelRooms.FindAsync(id);
+            var hotelRoom = await _context.HotelRooms.FindAsync(hotelId, roomNumber);
 
             if (hotelRoom == null)
             {
@@ -47,10 +47,15 @@ namespace async_inn
 
         // PUT: api/HotelRooms/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutHotelRoom(int id, HotelRoom hotelRoom)
+        [HttpPut("{roomNumber}")]
+        public async Task<IActionResult> PutHotelRoom(int hotelId, int roomNumber, HotelRoom hotelRoom)
         {
-            if (id != hotelRoom.HotelId)
+            if (hotelId != hotelRoom.HotelId)
+            {
+                return BadRequest();
+            }
+
+            if (roomNumber != hotelRoom.RoomNumber)
             {
                 return BadRequest();
             }
@@ -63,7 +68,7 @@ namespace async_inn
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!HotelRoomExists(id))
+                if (!HotelRoomExists(hotelId, roomNumber))
                 {
                     return NotFound();
                 }
@@ -79,16 +84,22 @@ namespace async_inn
         // POST: api/HotelRooms
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<HotelRoom>> PostHotelRoom(HotelRoom hotelRoom)
+        public async Task<ActionResult<HotelRoom>> PostHotelRoom(int hotelId, HotelRoom hotelRoom)
         {
+            if (hotelId != hotelRoom.HotelId)
+            {
+                return BadRequest();
+            }
+
             _context.HotelRooms.Add(hotelRoom);
+
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (HotelRoomExists(hotelRoom.HotelId))
+                if (HotelRoomExists(hotelRoom.HotelId, hotelRoom.RoomNumber))
                 {
                     return Conflict();
                 }
@@ -98,14 +109,14 @@ namespace async_inn
                 }
             }
 
-            return CreatedAtAction("GetHotelRoom", new { id = hotelRoom.HotelId }, hotelRoom);
+            return CreatedAtAction("GetHotelRoom", new { hotelRoom.HotelId, hotelRoom.RoomNumber }, hotelRoom);
         }
 
         // DELETE: api/HotelRooms/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteHotelRoom(int id)
+        [HttpDelete("{roomNumber}")]
+        public async Task<IActionResult> DeleteHotelRoom(int hotelId, int roomNumber)
         {
-            var hotelRoom = await _context.HotelRooms.FindAsync(id);
+            var hotelRoom = await _context.HotelRooms.FindAsync(hotelId, roomNumber);
             if (hotelRoom == null)
             {
                 return NotFound();
@@ -117,9 +128,13 @@ namespace async_inn
             return NoContent();
         }
 
-        private bool HotelRoomExists(int id)
+        private bool HotelRoomExists(int hotelId, int roomNumber)
         {
-            return _context.HotelRooms.Any(e => e.HotelId == id);
+            return _context.HotelRooms
+                .Any(e =>
+                e.HotelId == hotelId
+                && e.RoomNumber == roomNumber
+            );
         }
     }
 }
