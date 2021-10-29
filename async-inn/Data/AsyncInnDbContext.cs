@@ -25,6 +25,9 @@ namespace async_inn.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<HotelRoom>()
+                .HasKey(hr => new { hr.HotelId, hr.RoomNumber });
+
             modelBuilder.Entity<Hotel>().HasData(
               new Hotel { Id = 1, Name = "MGM Grand", StreetAddress = "1 Las Vegas Blvd", City = "Las Vegas", State = "Nevada", Country = "USA", Phone = "800-111-1111"  },
               new Hotel { Id = 2, Name = "Flamingo", StreetAddress = "2 Las Vegas Blvd", City = "Las Vegas", State = "Nevada", Country = "USA", Phone = "800-222-2222" },
