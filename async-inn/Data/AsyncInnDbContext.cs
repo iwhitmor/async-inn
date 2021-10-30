@@ -76,8 +76,7 @@ namespace async_inn.Data
             SeedRole(modelBuilder, "District Manager");
             SeedRole(modelBuilder, "Property Manager");
             SeedRole(modelBuilder, "Agent");
-            SeedRole(modelBuilder, "Anonymous");
-
+            
         }
 
         private void SeedRole(ModelBuilder modelBuilder, string roleName)

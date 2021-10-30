@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using async_inn.Data;
 using async_inn.Models;
 using async_inn.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace async_inn.Controllers
 {
+
+    [Authorize(Roles = "District Manager, Property Manager, Agent")]
     [Route("api/[controller]")]
     [ApiController]
     public class HotelsController : ControllerBase
@@ -26,6 +29,7 @@ namespace async_inn.Controllers
         }
 
         // GET: api/Hotels
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Hotel>>> GetHotels()
         {
@@ -33,6 +37,7 @@ namespace async_inn.Controllers
         }
 
         // GET: api/Hotels/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<Hotel>> GetHotel(int id)
         {
@@ -48,6 +53,7 @@ namespace async_inn.Controllers
 
         // PUT: api/Hotels/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "District Manager")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHotel(int id, Hotel hotel)
         {
@@ -79,6 +85,7 @@ namespace async_inn.Controllers
 
         // POST: api/Hotels
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "District Manager")]
         [HttpPost]
         public async Task<ActionResult<Hotel>> PostHotel(Hotel hotel)
         {
@@ -88,6 +95,7 @@ namespace async_inn.Controllers
         }
 
         // DELETE: api/Hotels/5
+        [Authorize(Roles = "District Manager")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHotel(int id)
         {
